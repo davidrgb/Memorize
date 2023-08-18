@@ -101,7 +101,9 @@ export default function Wrapper() {
         const spanId = `span-${id}`;
         const selectedSpan = document.getElementById(spanId);
         selectedSpan.style = 'background-color: #F2EAD3; color: #F2EAD3; user-select: none';
-        selectedSpan.contentEditable = false;
+        document.querySelectorAll("span").forEach((span) => {
+            span.contentEditable = false;
+        })
         setNotificationActive(false);
         setGuessModalActive(true);
     }
