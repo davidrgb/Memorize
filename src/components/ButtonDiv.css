@@ -1,0 +1,12 @@
+.button-div {
+    align-items: center;
+    display: inline-flex;
+    gap: 1rem;
+    justify-content: center;
+    position: absolute;
+    right: 10px;
+    transition: ease;
+    transition-duration: 0.2s;
+    will-change: transform;
+    z-index: 1;
+}

@@ -1,0 +1,18 @@
+span {
+    caret-color: #3F2305;
+    min-height: 1rem;
+    min-width: 1rem;
+}
+
+span:focus {
+    outline: none;
+}
+
+span::selection {
+    background: #3F2305;
+    color: #F5F5F5;
+}
+
+.key-span {
+    border-bottom: 1px solid #3F2305;
+}
