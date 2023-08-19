@@ -1,0 +1,9 @@
+.notification {
+    position: absolute;
+    right: calc(50% - 1.5rem);
+    transition: ease;
+    transition-duration: 0.2s;
+    top: 10px;
+    will-change: transform;
+    z-index: 2;
+}

@@ -1,0 +1,56 @@
+.guess-modal {
+    align-items: center;
+    box-sizing: border-box;
+    color: #3F2305;
+    display: inline-flex;
+    flex-direction: row;
+    font-size: 1.5rem;
+    gap: 1rem;
+    justify-content: center;
+    min-width: 100px;
+    padding: 0 10px;
+    position: absolute;
+    top: 10px;
+    transition: ease;
+    transition-duration: 0.2s;
+    width: 100%;
+    will-change: transform;
+    z-index: 2;
+}
+
+.guess-modal-input {
+    background-color: #F2EAD3;
+    border: 2px solid #3F2305;
+    caret-color: #3F2305;
+    color: #3F2305;
+    border-radius: 10px;
+    font-size: 1.5rem;
+    min-width: 10px;
+    padding: 10px;
+    transition: ease;
+    transition-duration: 1s;
+    width: calc(100% - 4rem);
+}
+
+.guess-modal-input::selection {
+    background: #3F2305;
+    color: #F5F5F5;
+}
+
+@media screen and (min-width: 640px) {
+    .guess-modal-input {
+        width: calc(80% - 4rem);
+    }
+}
+
+@media screen and (min-width: 1000px) {
+    .guess-modal-input {
+        width: calc(60% - 4rem);
+    }
+}
+
+@media screen and (min-width: 1280px) {
+    .guess-modal-input {
+        width: calc(40% - 4rem);
+    }
+}
