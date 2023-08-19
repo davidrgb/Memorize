@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 
 import { createPortal } from 'react-dom';
 
@@ -13,7 +13,7 @@ import './ButtonDiv.css';
 export default function ButtonDiv({ insertSpan, keyInput, openInstructionsModal }) {
     const [bottomPosition, setBottomPosition] = useState(10);
 
-    visualViewport.addEventListener('resize', (e) => {
+    visualViewport.addEventListener('resize', () => {
         setBottomPosition(window.innerHeight - window.visualViewport.height + 10);
     });
 
