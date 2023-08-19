@@ -12,9 +12,10 @@ export default function TextSpan({ id, className, onFocus, onBlur }) {
             id={`span-${id}`}
             className={className}
             contentEditable={true}
-            autoCapitalize="false"
-            autoCorrect="false"
-            spellCheck="false"
+            autoCapitalize="none"
+            autoCorrect={false}
+            autoFocus={true}
+            spellCheck={false}
             onFocus={onFocus}
             onBlur={onBlur}
         />

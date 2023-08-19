@@ -7,8 +7,16 @@ import './GuessModal.css';
 export default function GuessModal({ submitGuess }) {
     return createPortal(
         <div className="guess-modal">
-            <input className="guess-modal-input" placeholder="Type missing key here"></input>
-            <button className="border-button" onClick={() => { }}><CheckIcon /></button>
+            <input
+                id="guess-modal-input"
+                className="guess-modal-input"
+                placeholder="Type missing key here"
+                autoCapitalize="none"
+                autoCorrect={false}
+                autoFocus={true}
+                spellCheck={false}
+            />
+            <button className="border-button" onClick={() => submitGuess()}><CheckIcon /></button>
         </div>,
         document.body,
     )

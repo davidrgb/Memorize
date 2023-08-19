@@ -4,6 +4,7 @@ import ButtonDiv from './ButtonDiv';
 import GuessModal from './GuessModal';
 import InstructionsModal from './InstructionsModal';
 import Notification from './Notification';
+import ResultModal from './ResultModal';
 import TextSpan from './TextSpan';
 
 import './Button.css';
@@ -13,15 +14,19 @@ import './Wrapper.css';
 
 export default function Wrapper() {
     const currentId = useRef(1);
+    const guess = useRef(null);
     const [guessModalActive, setGuessModalActive] = useState(false);
+    const [instructionsModalActive, setInstructionsModalActive] = useState(false);
     const [keyInput, setKeyInput] = useState(false);
     const [keySpans, setKeySpans] = useState([]);
     const max = useRef(1);
     const [notificationActive, setNotificationActive] = useState(false);
+    const notificationTimeoutRef = useRef(null);
+    const [resultModalActive, setResultModalActive] = useState(false);
     const [scrollOffset, setScrollOffset] = useState(0);
     const [selectedId, setSelectedId] = useState(null);
     const [spans, setSpans] = useState([]);
-    const notificationTimeoutRef = useRef(null);
+    const value = useRef(null);
 
     useEffect(() => {
         const wrapper = document.getElementById('wrapper');
@@ -76,21 +81,20 @@ export default function Wrapper() {
     }
 
     const getKeys = () => {
-        setKeySpans([]);
+        let temp = [];
         const spans = document.querySelectorAll(".key-span");
         spans.forEach((span) => {
             if (span.innerHTML.trim().length > 0) {
-                setKeySpans(
-                    [
-                        ...keySpans,
-                        {
-                            component: span,
-                            id: Number(span.id.substring(5)),
-                        },
-                    ]
-                );
+                temp = [
+                    ...temp,
+                    {
+                        component: span,
+                        id: Number(span.id.substring(5)),
+                    },
+                ]
             }
         });
+        setKeySpans([...temp]);
     }
 
     const selectKey = () => {
@@ -100,7 +104,7 @@ export default function Wrapper() {
         setSelectedId(id);
         const spanId = `span-${id}`;
         const selectedSpan = document.getElementById(spanId);
-        selectedSpan.style = 'background-color: #F2EAD3; color: #F2EAD3; user-select: none';
+        selectedSpan.classList.add("selected-span")
         document.querySelectorAll("span").forEach((span) => {
             span.contentEditable = false;
         })
@@ -110,7 +114,7 @@ export default function Wrapper() {
 
     const startTimeout = () => {
         resetTimeout();
-        notificationTimeoutRef.current = setTimeout(() => { if (!notificationActive) setNotificationActive(true) }, (Math.floor(Math.random() * 60) + 60) * 10);
+        notificationTimeoutRef.current = setTimeout(() => { if (!notificationActive) setNotificationActive(true) }, (Math.floor(Math.random() * 60)) * 1000);
     }
 
     function resetTimeout() {
@@ -121,7 +125,7 @@ export default function Wrapper() {
 
     const checkTimer = () => {
         if (notificationTimeoutRef.current === null) {
-            const randomThreshold = Math.floor(Math.random() * 0) + 2;
+            const randomThreshold = Math.floor(Math.random() * 3) + 3;
             getKeys();
             if (keySpans.length >= randomThreshold) startTimeout();
         }
@@ -141,7 +145,7 @@ export default function Wrapper() {
                         id={currentMax}
                         className={'key-span'}
                         onFocus={() => { currentId.current = currentMax; setKeyInput(true) }}
-                        onBlur={() => checkTimer()}
+                        onBlur={() => { checkTimer(); }}
                     />,
                     id: currentMax,
                 } :
@@ -159,12 +163,27 @@ export default function Wrapper() {
         setSpans([...currentSpans]);
     }
 
-    const [instructionsModalOpen, setInstructionsModalOpen] = useState(false);
+    const submitGuess = () => {
+        const guessInput = document.getElementById('guess-modal-input');
+        guess.current = guessInput.value.trim();
+        const spanId = `span-${selectedId}`;
+        const selectedSpan = document.getElementById(spanId);
+        value.current = selectedSpan.innerHTML.trim();
+        setGuessModalActive(false);
+        setSelectedId(null);
+        selectedSpan.classList.remove("selected-span");
+        document.querySelectorAll("span").forEach((span) => {
+            span.contentEditable = true;
+        });
+        startTimeout();
+        setResultModalActive(true);
+    }
 
     return (
         <div id="wrapper" className="wrapper" style={{ paddingTop: `${guessModalActive ? '5rem' : '10px'}` }}>
             {notificationActive && <Notification openNotification={() => selectKey()} />}
-            {guessModalActive && <GuessModal submitGuess={() => { }} />}
+            {guessModalActive && <GuessModal submitGuess={() => submitGuess()} />}
+            {resultModalActive && <ResultModal guess={guess.current} value={value.current} closeModal={() => setResultModalActive(false)} />}
             <TextSpan
                 id={1}
                 className={'text-span'}
@@ -176,8 +195,8 @@ export default function Wrapper() {
                     return span.component;
                 })
             }
-            <ButtonDiv insertSpan={insertSpan} keyInput={keyInput} openInstructionsModal={() => setInstructionsModalOpen(true)} />
-            {instructionsModalOpen && <InstructionsModal closeModal={() => { setInstructionsModalOpen(false); document.getElementById(`span-${currentId.current}`).focus(); }} />}
+            <ButtonDiv insertSpan={insertSpan} keyInput={keyInput} openInstructionsModal={() => setInstructionsModalActive(true)} />
+            {instructionsModalActive && <InstructionsModal closeModal={() => { setInstructionsModalActive(false); document.getElementById(`span-${currentId.current}`).focus(); }} />}
         </div>
     );
 }

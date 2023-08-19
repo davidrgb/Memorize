@@ -23,9 +23,8 @@ export default function InstructionsModal({ closeModal }) {
                             To type a key, press the key button and begin typing. To type regular
                             text, press the text button. After you've finished typing your first few keys,
                             you'll begin receiving notifications. Whenever you're ready, tap the notification.
-                            You'll be shown an empty field where you can attempt to replace the key based on the
-                            remaining regular text. When finished, hit the checkmark button and the original key
-                            will be shown to you before returning you to your last typing position.
+                            You'll be shown an empty field where you can attempt to replace the missing key. 
+                            When finished, hit the checkmark button and see how you did.
                         </p>
                         <p>
                             That's all there is to it, good luck!

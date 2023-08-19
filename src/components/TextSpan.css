@@ -16,3 +16,9 @@ span::selection {
 .key-span {
     border-bottom: 1px solid #3F2305;
 }
+
+.selected-span {
+    background-color: #F2EAD3;
+    color: #F2EAD3;
+    user-select: none;
+}
